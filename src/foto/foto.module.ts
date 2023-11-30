@@ -1,4 +1,9 @@
 import { Module } from '@nestjs/common';
-
-@Module({})
+import { FotoService } from './foto.service';
+import { FotoEntity } from './foto.entity/foto.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+@Module({
+  imports: [TypeOrmModule.forFeature([FotoEntity])],
+  providers: [FotoService]
+})
 export class FotoModule {}
