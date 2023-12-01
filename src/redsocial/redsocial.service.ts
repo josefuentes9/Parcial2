@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BusinessLogicException, BusinessError } from 'shared/business-errors';
+import { BusinessLogicException, BusinessError } from '../../shared/business-errors';
 import { RedsocialEntity } from './redsocial.entity/redsocial.entity';
 @Injectable()
 export class RedsocialService {
@@ -15,7 +15,7 @@ export class RedsocialService {
       return await this.redsocialRepository.save(redsocial);
     } else {
       throw new BusinessLogicException(
-        'No cumplecon las condiciones',
+        'No cumple con las restricciones',
         BusinessError.BAD_REQUEST,
       );
     }

@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsuarioEntity } from './usuario.entity/usuario.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BusinessLogicException, BusinessError } from 'shared/business-errors';
+import { BusinessLogicException, BusinessError } from '../../shared/business-errors';
 
 @Injectable()
 export class UsuarioService{
@@ -26,7 +26,7 @@ export class UsuarioService{
           return await this.usuarioRepository.save(usuario);
         }
         else{
-          throw new BusinessLogicException("The book has an invalid name or description", BusinessError.BAD_REQUEST);
+          throw new BusinessLogicException("The user has an invalid number", BusinessError.BAD_REQUEST);
         }
     }
 

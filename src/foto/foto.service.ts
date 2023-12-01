@@ -2,17 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { FotoEntity } from './foto.entity/foto.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { BusinessLogicException, BusinessError } from 'shared/business-errors';
-import { AlbumEntity } from 'src/album/album.entity/album.entity';
+import { BusinessLogicException, BusinessError } from '../../shared/business-errors';
 
 @Injectable()
 export class FotoService {
   constructor(
     @InjectRepository(FotoEntity)
     private readonly fotoRepository: Repository<FotoEntity>,
-
-    @InjectRepository(AlbumEntity)
-    private readonly albumRepository: Repository<AlbumEntity>,
   ) {}
 
   async buscarTodosLosFotos(): Promise<FotoEntity[]> {
@@ -34,7 +30,7 @@ export class FotoService {
 
   async createFoto(foto: FotoEntity): Promise<FotoEntity> {
     let contador = 0;
-    if (foto.iso >= 100 && foto.iso >= 6400) {
+    if (foto.iso >= 100 && foto.iso <= 6400) {
       if (foto.velObturacion >= 2 && foto.velObturacion <= 500) {
         if (foto.apertura >= 2 && foto.apertura <= 32) {
             if(foto.iso>=(6400-100)/2){
@@ -46,12 +42,32 @@ export class FotoService {
             if(foto.velObturacion>=(32-2)/2){
                 contador++;
             }
-          if (contador >= 2) {
+          console.log(contador) 
+          if (contador >= 1) {
             return await this.fotoRepository.save(foto);
           }
+          else {
+            throw new BusinessLogicException(
+              'No cumple con las restricciones',
+              BusinessError.BAD_REQUEST,
+            );
+          }
+        }
+        else {
+          throw new BusinessLogicException(
+            'No cumple con las restricciones',
+            BusinessError.BAD_REQUEST,
+          );
         }
       }
-    } else {
+      else {
+        throw new BusinessLogicException(
+          'No cumple con las restricciones',
+          BusinessError.BAD_REQUEST,
+        );
+      }
+    } 
+    else {
       throw new BusinessLogicException(
         'No cumple con las restricciones',
         BusinessError.BAD_REQUEST,
@@ -59,14 +75,4 @@ export class FotoService {
     }
   }
 
-  async deleteFoto(id: number, album: AlbumEntity) {
-    const foto: FotoEntity = await this.fotoRepository.findOne({
-      where: { id },
-    });
-    if (album.fotos.length == 0) {
-      await this.fotoRepository.remove(foto);
-      await this.albumRepository.remove(album);
-    }
-  }
-  //cmit3
 }
