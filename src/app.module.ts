@@ -12,8 +12,9 @@ import { UsuarioEntity } from './usuario/usuario.entity/usuario.entity';
 import { FotoEntity } from './foto/foto.entity/foto.entity';
 import { AlbumFotoModule } from './album-foto/album-foto.module';
 
+
 @Module({
-  imports: [RedsocialModule, AlbumModule, UsuarioModule, FotoModule,
+  imports: [RedsocialModule, AlbumModule, UsuarioModule, FotoModule,  AlbumFotoModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
