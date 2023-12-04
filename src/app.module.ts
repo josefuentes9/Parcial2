@@ -27,7 +27,6 @@ import { AlbumFotoModule } from './album-foto/album-foto.module';
       synchronize: true,
       keepConnectionAlive: true
     }),
-    AlbumFotoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
